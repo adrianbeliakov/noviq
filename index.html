@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOVIQ — Premium digital agency</title>
+  <meta name="description" content="NOVIQ builds premium websites, social media, Google Maps optimisation and AI automations for local businesses." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0a0a0a;
+      --surface: rgba(19, 20, 27, 0.95);
+      --surface-strong: #11121a;
+      --text: #f3f5ff;
+      --muted: #a7b0ff;
+      --accent: #3b82f6;
+      --accent-soft: rgba(59, 130, 246, 0.16);
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+      font-family: 'Space Grotesk', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(80, 250, 196, 0.08), transparent 20%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.18) 0, transparent 28%),
+        radial-gradient(circle at 85% 10%, rgba(80, 250, 196, 0.13) 0, transparent 22%),
+        radial-gradient(circle at 50% 90%, rgba(96, 165, 250, 0.08) 0, transparent 30%);
+      pointer-events: none;
+      opacity: 0.85;
+      mix-blend-mode: screen;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 100px 100px;
+      opacity: 0.14;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: rgba(10, 10, 10, 0.78);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 76px;
+      padding: 0.9rem 0;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f8fbff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      justify-content: center;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .lang-switcher {
+      position: relative;
+      font-size: 0.9rem;
+    }
+
+    .lang-switcher button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 0.78rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .lang-switcher button:hover {
+      background: rgba(59, 130, 246, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .lang-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 0.5rem);
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      box-shadow: 0 22px 72px rgba(0,0,0,0.25);
+      overflow: hidden;
+      min-width: 10rem;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .lang-menu.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .lang-menu button {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .lang-menu button:hover,
+    .lang-menu button:focus-visible {
+      background: rgba(59, 130, 246, 0.12);
+    }
+
+    .button,
+    .button-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .button {
+      background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      color: #fff;
+      padding: 0.95rem 1.6rem;
+      box-shadow: 0 18px 45px rgba(59, 130, 246, 0.25);
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 60px rgba(59, 130, 246, 0.32);
+    }
+
+    .button-secondary {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.04);
+      padding: 0.95rem 1.5rem;
+    }
+
+    .button-secondary:hover,
+    .button-secondary:focus-visible {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.08);
+    }
+
+    header.hero {
+      position: relative;
+      overflow: hidden;
+      padding: 5rem 0 4rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-copy {
+      max-width: 640px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      margin-bottom: 1.5rem;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .hero-copy h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 4.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.2rem;
+      max-width: 12ch;
+      color: #fff;
+    }
+
+    .hero-copy p {
+      margin-bottom: 2rem;
+      color: rgba(242, 246, 255, 0.82);
+      font-size: 1.03rem;
+      max-width: 44rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 420px;
+      border-radius: 32px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-visual::before,
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.5;
+    }
+
+    .hero-visual::before {
+      width: 280px;
+      height: 280px;
+      top: -40px;
+      left: -40px;
+      background: rgba(59, 130, 246, 0.24);
+    }
+
+    .hero-visual::after {
+      width: 220px;
+      height: 220px;
+      bottom: -40px;
+      right: -40px;
+      background: rgba(80, 250, 196, 0.18);
+    }
+
+    .hero-card {
+      position: absolute;
+      width: min(320px, 90%);
+      padding: 1.5rem;
+      border-radius: 28px;
+      background: rgba(15, 18, 28, 0.9);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 40px 90px rgba(0,0,0,0.35);
+      display: grid;
+      gap: 1rem;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .hero-card strong {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .hero-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .hero-card span {
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+      color: #60a5fa;
+      font-size: 0.9rem;
+    }
+
+    .hero-card svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .hero-card.one {
+      top: 12%;
+      left: 6%;
+    }
+
+    .hero-card.two {
+      bottom: 8%;
+      right: 8%;
+      animation-delay: 1.6s;
+    }
+
+    .hero-card.three {
+      bottom: 24%;
+      left: 10%;
+      animation-delay: 2.8s;
+    }
+
+    .hero-marquee {
+      overflow: hidden;
+      margin-top: 2.5rem;
+      padding: 0.85rem 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .hero-marquee .track {
+      display: inline-flex;
+      align-items: center;
+      gap: 2.5rem;
+      white-space: nowrap;
+      animation: marquee 18s linear infinite;
+    }
+
+    .hero-marquee span {
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .section-title {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.15rem, 4vw, 3rem);
+      line-height: 1.05;
+      max-width: 14ch;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      max-width: 60ch;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .services-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .service-card,
+    .process-step,
+    .portfolio-card,
+    .pricing-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 2rem;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.18);
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .service-card:hover,
+    .process-step:hover,
+    .portfolio-card:hover,
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(59,130,246,0.35);
+      box-shadow: 0 38px 70px rgba(0,0,0,0.28);
+    }
+
+    .service-card svg,
+    .process-step svg {
+      width: 38px;
+      height: 38px;
+      margin-bottom: 1.2rem;
+      color: #60a5fa;
+    }
+
+    .service-card h3,
+    .process-step h3,
+    .pricing-card h3 {
+      font-size: 1.18rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .service-card p,
+    .process-step p {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.98rem;
+    }
+
+    .process-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .process-step {
+      min-height: 210px;
+    }
+
+    .process-step .step-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: rgba(59,130,246,0.14);
+      color: #60a5fa;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .portfolio-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .portfolio-card {
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      padding: 1.5rem;
+      background-repeat: no-repeat;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portfolio-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(10,10,10,0.85) 80%);
+      mix-blend-mode: multiply;
+    }
+
+    .portfolio-card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .portfolio-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.8rem;
+      color: #a5b4fc;
+      margin-bottom: 0.75rem;
+    }
+
+    .portfolio-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .portfolio-card p {
+      color: rgba(255,255,255,0.82);
+      max-width: 18rem;
+      font-size: 0.96rem;
+      line-height: 1.7;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .stat-card {
+      padding: 2rem 1.8rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      text-align: center;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 2.6rem;
+      margin-bottom: 0.6rem;
+      color: #fff;
+    }
+
+    .stat-card span {
+      color: var(--muted);
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .why-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .why-copy p {
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 42rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .why-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .why-list li {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .why-list li::before {
+      content: '✓';
+      color: #60a5fa;
+      margin-top: 0.2rem;
+    }
+
+    .pricing-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .pricing-card {
+      display: grid;
+      gap: 1.4rem;
+    }
+
+    .pricing-card .price {
+      font-size: 2.6rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .pricing-card .price small {
+      display: block;
+      font-size: 1rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    .pricing-card ul {
+      display: grid;
+      gap: 0.85rem;
+      color: var(--muted);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pricing-card li::before {
+      content: '•';
+      color: #60a5fa;
+      margin-right: 0.6rem;
+    }
+
+    .pricing-card .price-button {
+      margin-top: auto;
+    }
+
+    .final-cta {
+      padding: 4rem 0 3rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 36px;
+    }
+
+    .final-cta-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1rem;
+    }
+
+    .final-cta p {
+      color: var(--muted);
+      margin-bottom: 1.6rem;
+      max-width: 46rem;
+    }
+
+    footer {
+      padding: 3rem 0 2rem;
+      color: var(--muted);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.1fr auto;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-links a {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: #25d366;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #0a0a0a;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.3);
+      z-index: 12;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+
+    .whatsapp-float:hover {
+      transform: translateY(-3px);
+    }
+
+    .cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1px solid rgba(59, 130, 246, 0.9);
+      background: rgba(59, 130, 246, 0.18);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      mix-blend-mode: difference;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .visible-element {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .visible-element.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1024px) {
+      .services-grid,
+      .process-grid,
+      .portfolio-grid,
+      .stats-grid,
+      .pricing-grid,
+      .why-grid,
+      .final-cta-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 360px;
+      }
+
+      .hero-card.one,
+      .hero-card.two,
+      .hero-card.three {
+        position: relative;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: auto;
+        transform: none;
+        animation: none;
+      }
+
+      .hero-card {
+        padding: 1.4rem;
+        backdrop-filter: blur(16px);
+      }
+
+      nav {
+        padding: 0 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-links {
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .nav-actions {
+        justify-content: space-between;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-marquee {
+        display: none;
+      }
+
+      .service-card,
+      .process-step,
+      .portfolio-card,
+      .pricing-card {
+        padding: 1.6rem;
+      }
+
+      .hero-visual {
+        min-height: 300px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav-links {
+        gap: 0.8rem;
+      }
+
+      .nav-links a,
+      .footer-links a {
+        font-size: 0.9rem;
+      }
+
+      .hero-copy h1 {
+        font-size: 2.75rem;
+      }
+
+      .hero-copy p {
+        font-size: 0.98rem;
+      }
+
+      .section-title h2 {
+        font-size: 2rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .button,
+      .button-secondary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="page">
+    <nav>
+      <div class="container nav-inner">
+        <a href="#hero" class="logo" data-i18n="brand">NOVIQ</a>
+        <div class="nav-links">
+          <a href="#services" data-i18n="navServices">Services</a>
+          <a href="#work" data-i18n="navWork">Work</a>
+          <a href="#about" data-i18n="navAbout">About</a>
+          <a href="#contact" data-i18n="navContact">Contact</a>
+        </div>
+        <div class="nav-actions">
+          <div class="lang-switcher" id="langSwitcher">
+            <button type="button" id="langButton" aria-haspopup="true" aria-expanded="false">
+              <span id="langLabel">EN</span>
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L7 8L13 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="lang-menu" id="langMenu" role="menu" aria-label="Language selector">
+              <button type="button" data-lang="en">English</button>
+              <button type="button" data-lang="fr">Français</button>
+              <button type="button" data-lang="es">Español</button>
+            </div>
+          </div>
+          <a href="https://wa.me/PLACEHOLDER" class="button" data-i18n="navFreeDemo">Get a Free Demo</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy visible-element" data-animate>
+          <span class="eyebrow" data-i18n="heroLabel">Digital agency for local brands</span>
+          <h1 data-i18n="heroTitle">Premium online presence for ambitious local businesses</h1>
+          <p data-i18n="heroSubtitle">We create distinctive websites, high-converting social media, Google Maps visibility, and AI automation that helps salons, restaurants and service brands win clients.</p>
+          <div class="hero-actions">
+            <a href="https://wa.me/PLACEHOLDER" class="button" data-i18n="heroDemo">Get Free Demo</a>
+            <a href="#work" class="button-secondary" data-i18n="heroWork">View Work</a>
+          </div>
+          <div class="hero-marquee" aria-hidden="true">
+            <div class="track">
+              <span data-i18n="marqueeWeb">Web Design</span>
+              <span data-i18n="marqueeSocial">Social Media</span>
+              <span data-i18n="marqueeMaps">Google Maps</span>
+              <span data-i18n="marqueeAI">AI Automation</span>
+              <span data-i18n="marqueeWeb">Web Design</span>
+              <span data-i18n="marqueeSocial">Social Media</span>
+              <span data-i18n="marqueeMaps">Google Maps</span>
+              <span data-i18n="marqueeAI">AI Automation</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual visible-element" data-animate>
+          <div class="hero-card one">
+            <strong data-i18n="heroStat1Title">+42 premium launches</strong>
+            <p data-i18n="heroStat1Body">Fast delivery for businesses that want a polished local aesthetic and solid ROI.</p>
+            <span><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> <span data-i18n="heroStat1Tag">High-impact design</span></span>
+          </div>
+          <div class="hero-card two">
+            <strong data-i18n="heroStat2Title">AI live chat agents</strong>
+            <p data-i18n="heroStat2Body">Automate customer replies, bookings and local recommendations without losing warmth.</p>
+            <span><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> <span data-i18n="heroStat2Tag">Conversion-ready</span></span>
+          </div>
+          <div class="hero-card three">
+            <strong data-i18n="heroStat3Title">More visibility</strong>
+            <p data-i18n="heroStat3Body">Google Maps and social updates that help local places appear first in search.</p>
+            <span><svg viewBox="0 0 24 24"><path d="M4 12l6 6 10-10" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg> <span data-i18n="heroStat3Tag">Local focus</span></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="services">
+        <div class="container">
+          <div class="section-title visible-element" data-animate>
+            <h2 data-i18n="servicesTitle">Our services for local success</h2>
+            <p data-i18n="servicesSubtitle">A focused premium offer for barbershops, salons, restaurants and cleaning services ready to grow with a stronger digital presence.</p>
+          </div>
+          <div class="grid services-grid">
+            <article class="service-card visible-element" data-animate>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v4H3zm0 8h18v4H3zm0 8h18v2H3z" fill="currentColor"/></svg>
+              <h3 data-i18n="serviceWebTitle">Web Design</h3>
+              <p data-i18n="serviceWebBody">Elegant, fast websites tailored to local brands with booking, menus, portfolios and conversion-ready messaging.</p>
+            </article>
+            <article class="service-card visible-element" data-animate>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v3H4zM4 10h16v3H4zM4 15h10v3H4z" fill="currentColor"/></svg>
+              <h3 data-i18n="serviceSocialTitle">Social Media<br />Management</h3>
+              <p data-i18n="serviceSocialBody">Strategic content, calendars and ad-ready posts that keep your brand visible on Instagram, Facebook and TikTok.</p>
+            </article>
+            <article class="service-card visible-element" data-animate>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 20h10v-2H7zm0-5h10v-2H7zm0-5h10V8H7zm0-5h10V3H7z" fill="currentColor"/></svg>
+              <h3 data-i18n="serviceMapsTitle">Google Maps Optimisation</h3>
+              <p data-i18n="serviceMapsBody">Better visibility, reviews and local search positioning so your business gets seen first by nearby customers.</p>
+            </article>
+            <article class="service-card visible-element" data-animate>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 2h2v3h-2zm4 3.5l1.7-1.7 1.4 1.4L16.4 7.2zM8.6 3.2L7.2 4.6 8.9 6.3 10.3 4.9zM4 8h3V6H4zm13-2h3v2h-3zM5 8v10h3V8zm11 0v10h3V8zM9 12h6v2H9zm0 4h6v2H9z" fill="currentColor"/></svg>
+              <h3 data-i18n="serviceAITitle">AI Automation</h3>
+              <p data-i18n="serviceAIBody">Automated chat agents, booking assistants and follow-up flows designed to make staff time feel effortless.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="container">
+          <div class="section-title visible-element" data-animate>
+            <h2 data-i18n="processTitle">How NOVIQ partners with you</h2>
+            <p data-i18n="processSubtitle">A simple, premium process built for local owners who want results without complexity.</p>
+          </div>
+          <div class="grid process-grid">
+            <article class="process-step visible-element" data-animate>
+              <div class="step-index">01</div>
+              <h3 data-i18n="processStep1Title">Consultation</h3>
+              <p data-i18n="processStep1Body">We map your audience, brand tone and booking flow with a fast discovery session.</p>
+            </article>
+            <article class="process-step visible-element" data-animate>
+              <div class="step-index">02</div>
+              <h3 data-i18n="processStep2Title">Build</h3>
+              <p data-i18n="processStep2Body">Design, copy and automation are crafted to feel premium, modern and immediately action-oriented.</p>
+            </article>
+            <article class="process-step visible-element" data-animate>
+              <div class="step-index">03</div>
+              <h3 data-i18n="processStep3Title">Launch</h3>
+              <p data-i18n="processStep3Body">We deploy your site, optimise Maps listings and launch social campaigns with local search in mind.</p>
+            </article>
+            <article class="process-step visible-element" data-animate>
+              <div class="step-index">04</div>
+              <h3 data-i18n="processStep4Title">Manage</h3>
+              <p data-i18n="processStep4Body">Ongoing support, updates and AI optimisation keep your brand relevant and fresh every month.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="container">
+          <div class="section-title visible-element" data-animate>
+            <h2 data-i18n="workTitle">Selected work for local brands</h2>
+            <p data-i18n="workSubtitle">Examples of the polished, conversion-driven projects we deliver for service businesses.</p>
+          </div>
+          <div class="grid portfolio-grid">
+            <article class="portfolio-card visible-element" data-animate style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'640\' height=\'480\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%23131a24\'/%3E%3Ctext x=\'50%25\' y=\'48%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial,Helvetica,sans-serif\' font-size=\'34\' fill=\'%23b5c4ff\'%3EBarber demo%3C/text%3E%3C/svg%3E');">
+              <div class="portfolio-card-content">
+                <span class="portfolio-tag" data-i18n="portfolioTag1">Barbershop experience</span>
+                <h3 data-i18n="portfolioTitle1">Sharper bookings</h3>
+                <p data-i18n="portfolioBody1">A modern digital identity with appointment flows designed for new clients and returning guests.</p>
+              </div>
+            </article>
+            <article class="portfolio-card visible-element" data-animate style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'640\' height=\'480\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%23131a24\'/%3E%3Ctext x=\'50%25\' y=\'48%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial,Helvetica,sans-serif\' font-size=\'34\' fill=\'%23b5c4ff\'%3ECleaning demo%3C/text%3E%3C/svg%3E');">
+              <div class="portfolio-card-content">
+                <span class="portfolio-tag" data-i18n="portfolioTag2">Cleaning service demo</span>
+                <h3 data-i18n="portfolioTitle2">Premium local visibility</h3>
+                <p data-i18n="portfolioBody2">A crisp, modern layout built for service companies that want every customer to call or book instantly.</p>
+              </div>
+            </article>
+            <article class="portfolio-card visible-element" data-animate style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'640\' height=\'480\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%23131a24\'/%3E%3Ctext x=\'50%25\' y=\'48%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial,Helvetica,sans-serif\' font-size=\'34\' fill=\'%23b5c4ff\'%3ESalon demo%3C/text%3E%3C/svg%3E');">
+              <div class="portfolio-card-content">
+                <span class="portfolio-tag" data-i18n="portfolioTag3">Salon showcase</span>
+                <h3 data-i18n="portfolioTitle3">Elegant booking flow</h3>
+                <p data-i18n="portfolioBody3">A polished page that elevates the customer journey from discovery to reservation.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="grid stats-grid">
+            <article class="stat-card visible-element" data-animate>
+              <strong data-count="78">0</strong>
+              <span data-i18n="statsClients">Clients served</span>
+            </article>
+            <article class="stat-card visible-element" data-animate>
+              <strong data-count="126">0</strong>
+              <span data-i18n="statsProjects">Projects delivered</span>
+            </article>
+            <article class="stat-card visible-element" data-animate>
+              <strong data-count="4">0</strong>
+              <span data-i18n="statsLang">Languages supported</span>
+            </article>
+            <article class="stat-card visible-element" data-animate>
+              <strong data-count="97">0</strong>
+              <span data-i18n="statsSatisfaction">Client satisfaction</span>
+            </article>
+          </div>
+          <div class="why-grid" style="margin-top: 3rem;">
+            <div class="why-copy visible-element" data-animate>
+              <h2 data-i18n="whyTitle">Why clients choose NOVIQ</h2>
+              <p data-i18n="whyBody">We combine premium design, local search expertise and AI workflow automation to help service businesses win more calls, bookings and reviews.</p>
+            </div>
+            <ul class="why-list visible-element" data-animate>
+              <li data-i18n="whyItem1">Bespoke websites that feel refined and convert quickly.</li>
+              <li data-i18n="whyItem2">Google Maps strategies tailored for local trust and visibility.</li>
+              <li data-i18n="whyItem3">AI chat agents that answer questions, book appointments and reduce no-shows.</li>
+              <li data-i18n="whyItem4">Straightforward monthly support that keeps the brand looking premium.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="container">
+          <div class="section-title visible-element" data-animate>
+            <h2 data-i18n="pricingTitle">Pricing designed for fast value</h2>
+            <p data-i18n="pricingSubtitle">Premium local websites with clear setup fees and optional ongoing support to keep your business ahead.</p>
+          </div>
+          <div class="grid pricing-grid">
+            <article class="pricing-card visible-element" data-animate>
+              <h3 data-i18n="pricingStarter">Starter</h3>
+              <div class="price">€250<small data-i18n="pricingSetup">setup</small></div>
+              <ul>
+                <li data-i18n="pricingFeature1">Premium one-page website</li>
+                <li data-i18n="pricingFeature2">Local SEO basics</li>
+                <li data-i18n="pricingFeature3">Contact & booking links</li>
+              </ul>
+              <a href="https://wa.me/PLACEHOLDER" class="button price-button" data-i18n="pricingSelect">Select</a>
+            </article>
+            <article class="pricing-card visible-element" data-animate>
+              <h3 data-i18n="pricingPro">Professional</h3>
+              <div class="price">€500<small data-i18n="pricingSetup">setup</small></div>
+              <ul>
+                <li data-i18n="pricingFeature4">3-5 page website</li>
+                <li data-i18n="pricingFeature5">Social content guide</li>
+                <li data-i18n="pricingFeature6">Maps & review optimisation</li>
+              </ul>
+              <a href="https://wa.me/PLACEHOLDER" class="button price-button" data-i18n="pricingSelect">Select</a>
+            </article>
+            <article class="pricing-card visible-element" data-animate>
+              <h3 data-i18n="pricingPremium">Premium</h3>
+              <div class="price">€1200<small data-i18n="pricingSetup">setup</small></div>
+              <ul>
+                <li data-i18n="pricingFeature7">Full brand website</li>
+                <li data-i18n="pricingFeature8">AI chat agent integration</li>
+                <li data-i18n="pricingFeature9">Monthly optimisation plan</li>
+              </ul>
+              <a href="https://wa.me/PLACEHOLDER" class="button price-button" data-i18n="pricingSelect">Select</a>
+            </article>
+          </div>
+          <p style="margin-top:1.5rem; color: var(--muted);" data-i18n="pricingNote">Monthly support available after launch for consistent local growth.</p>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="container final-cta visible-element" data-animate>
+          <div class="final-cta-inner">
+            <div>
+              <h2 data-i18n="finalTitle">Ready to elevate your business?</h2>
+              <p data-i18n="finalSubtitle">Book a free demo and discover how NOVIQ can make your local brand feel premium, visible and automated.</p>
+            </div>
+            <a href="https://wa.me/PLACEHOLDER" class="button" data-i18n="finalButton">Book a Free Demo</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div>
+          <a href="#hero" class="logo">NOVIQ</a>
+          <div class="footer-links">
+            <a href="#services" data-i18n="navServices">Services</a>
+            <a href="#work" data-i18n="navWork">Work</a>
+            <a href="#about" data-i18n="navAbout">About</a>
+            <a href="#contact" data-i18n="navContact">Contact</a>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Z" stroke="currentColor" stroke-width="1.7"/><path d="M12 8.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm5.5-1.5h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9h3.5v10H6V9Zm1.75-4a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5ZM10.5 9H14v1.3h.05a3.4 3.4 0 0 1 3.05-1.7c3.25 0 3.85 2.15 3.85 4.95V19h-3.5v-4.35c0-1.04-.02-2.38-1.45-2.38-1.45 0-1.67 1.13-1.67 2.31V19h-3.5V9Z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.02 2.01C6.47 2.01 2 6.47 2 12.02c0 2.12.66 4.09 1.8 5.74L2 22l4.42-1.15a9.95 9.95 0 0 0 5.6 1.43h.01c5.55 0 10.02-4.47 10.02-10.02S17.57 2.01 12.02 2.01Zm.01 16.04c-1.78 0-3.44-.52-4.86-1.42l-.35-.2-2.62.69.71-2.55-.23-.37A7.91 7.91 0 0 1 4.01 12.03c0-4.42 3.59-8.01 8.02-8.01 4.43 0 8.02 3.59 8.02 8.01 0 4.42-3.59 8.01-8.02 8.01Zm4.25-5.73c-.22-.11-1.29-.64-1.49-.72-.2-.08-.35-.11-.5.11-.16.22-.62.72-.76.87-.14.14-.28.16-.52.06-.24-.1-1.03-.38-1.96-1.2-.72-.64-1.2-1.44-1.34-1.68-.14-.24-.01-.37.1-.48.1-.1.22-.26.34-.39.11-.13.15-.22.23-.37.08-.14.04-.27-.02-.38-.06-.11-.5-1.2-.69-1.66-.18-.43-.36-.37-.5-.38l-.43-.01c-.15 0-.39.06-.59.28-.2.22-.78.76-.78 1.84 0 1.08.8 2.13.91 2.28.11.16 1.58 2.42 3.83 3.39.54.23.96.37 1.29.47.54.16 1.03.14 1.42.09.43-.06 1.29-.52 1.47-1.02.18-.5.18-.93.13-1.02-.05-.08-.18-.13-.4-.24Z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <p style="margin-top:1.75rem; color: var(--muted); font-size: 0.92rem;" data-i18n="footerCopy">© 2026 NOVIQ — Premium digital agency for local brands.</p>
+    </footer>
+  </div>
+
+  <a href="https://wa.me/PLACEHOLDER" class="whatsapp-float" aria-label="WhatsApp" title="WhatsApp"></a>
+
+  <script>
+    const translations = {
+      en: {
+        brand: 'NOVIQ',
+        navServices: 'Services',
+        navWork: 'Work',
+        navAbout: 'About',
+        navContact: 'Contact',
+        navFreeDemo: 'Get a Free Demo',
+        heroLabel: 'Digital agency for local brands',
+        heroTitle: 'Premium online presence for ambitious local businesses',
+        heroSubtitle: 'We create distinctive websites, high-converting social media, Google Maps visibility, and AI automation that helps salons, restaurants and service brands win clients.',
+        heroDemo: 'Get Free Demo',
+        heroWork: 'View Work',
+        marqueeWeb: 'Web Design',
+        marqueeSocial: 'Social Media',
+        marqueeMaps: 'Google Maps',
+        marqueeAI: 'AI Automation',
+        heroStat1Title: '+42 premium launches',
+        heroStat1Body: 'Fast delivery for businesses that want a polished local aesthetic and solid ROI.',
+        heroStat1Tag: 'High-impact design',
+        heroStat2Title: 'AI live chat agents',
+        heroStat2Body: 'Automate customer replies, bookings and local recommendations without losing warmth.',
+        heroStat2Tag: 'Conversion-ready',
+        heroStat3Title: 'More visibility',
+        heroStat3Body: 'Google Maps and social updates that help local places appear first in search.',
+        heroStat3Tag: 'Local focus',
+        servicesTitle: 'Our services for local success',
+        servicesSubtitle: 'A focused premium offer for barbershops, salons, restaurants and cleaning services ready to grow with a stronger digital presence.',
+        serviceWebTitle: 'Web Design',
+        serviceWebBody: 'Elegant, fast websites tailored to local brands with booking, menus, portfolios and conversion-ready messaging.',
+        serviceSocialTitle: 'Social Media Management',
+        serviceSocialBody: 'Strategic content, calendars and ad-ready posts that keep your brand visible on Instagram, Facebook and TikTok.',
+        serviceMapsTitle: 'Google Maps Optimisation',
+        serviceMapsBody: 'Better visibility, reviews and local search positioning so your business gets seen first by nearby customers.',
+        serviceAITitle: 'AI Automation',
+        serviceAIBody: 'Automated chat agents, booking assistants and follow-up flows designed to make staff time feel effortless.',
+        processTitle: 'How NOVIQ partners with you',
+        processSubtitle: 'A simple, premium process built for local owners who want results without complexity.',
+        processStep1Title: 'Consultation',
+        processStep1Body: 'We map your audience, brand tone and booking flow with a fast discovery session.',
+        processStep2Title: 'Build',
+        processStep2Body: 'Design, copy and automation are crafted to feel premium, modern and immediately action-oriented.',
+        processStep3Title: 'Launch',
+        processStep3Body: 'We deploy your site, optimise Maps listings and launch social campaigns with local search in mind.',
+        processStep4Title: 'Manage',
+        processStep4Body: 'Ongoing support, updates and AI optimisation keep your brand relevant and fresh every month.',
+        workTitle: 'Selected work for local brands',
+        workSubtitle: 'Examples of the polished, conversion-driven projects we deliver for service businesses.',
+        portfolioTag1: 'Barbershop experience',
+        portfolioTitle1: 'Sharper bookings',
+        portfolioBody1: 'A modern digital identity with appointment flows designed for new clients and returning guests.',
+        portfolioTag2: 'Cleaning service demo',
+        portfolioTitle2: 'Premium local visibility',
+        portfolioBody2: 'A crisp, modern layout built for service companies that want every customer to call or book instantly.',
+        portfolioTag3: 'Salon showcase',
+        portfolioTitle3: 'Elegant booking flow',
+        portfolioBody3: 'A polished page that elevates the customer journey from discovery to reservation.',
+        statsClients: 'Clients served',
+        statsProjects: 'Projects delivered',
+        statsLang: 'Languages supported',
+        statsSatisfaction: 'Client satisfaction',
+        whyTitle: 'Why clients choose NOVIQ',
+        whyBody: 'We combine premium design, local search expertise and AI workflow automation to help service businesses win more calls, bookings and reviews.',
+        whyItem1: 'Bespoke websites that feel refined and convert quickly.',
+        whyItem2: 'Google Maps strategies tailored for local trust and visibility.',
+        whyItem3: 'AI chat agents that answer questions, book appointments and reduce no-shows.',
+        whyItem4: 'Straightforward monthly support that keeps the brand looking premium.',
+        pricingTitle: 'Pricing designed for fast value',
+        pricingSubtitle: 'Premium local websites with clear setup fees and optional ongoing support to keep your business ahead.',
+        pricingStarter: 'Starter',
+        pricingPro: 'Professional',
+        pricingPremium: 'Premium',
+        pricingSetup: 'setup',
+        pricingFeature1: 'Premium one-page website',
+        pricingFeature2: 'Local SEO basics',
+        pricingFeature3: 'Contact & booking links',
+        pricingFeature4: '3-5 page website',
+        pricingFeature5: 'Social content guide',
+        pricingFeature6: 'Maps & review optimisation',
+        pricingFeature7: 'Full brand website',
+        pricingFeature8: 'AI chat agent integration',
+        pricingFeature9: 'Monthly optimisation plan',
+        pricingSelect: 'Select',
+        pricingNote: 'Monthly support available after launch for consistent local growth.',
+        finalTitle: 'Ready to elevate your business?',
+        finalSubtitle: 'Book a free demo and discover how NOVIQ can make your local brand feel premium, visible and automated.',
+        finalButton: 'Book a Free Demo',
+        footerCopy: '© 2026 NOVIQ — Premium digital agency for local brands.'
+      },
+      fr: {
+        brand: 'NOVIQ',
+        navServices: 'Services',
+        navWork: 'Réalisations',
+        navAbout: 'À propos',
+        navContact: 'Contact',
+        navFreeDemo: 'Démo gratuite',
+        heroLabel: 'Agence digitale pour commerces locaux',
+        heroTitle: 'Présence en ligne premium pour les entreprises locales ambitieuses',
+        heroSubtitle: 'Nous créons des sites élégants, des réseaux sociaux performants, une visibilité Google Maps et des automations IA pour salons, restaurants et services.',
+        heroDemo: 'Démo gratuite',
+        heroWork: 'Voir les réalisations',
+        marqueeWeb: 'Design web',
+        marqueeSocial: 'Réseaux sociaux',
+        marqueeMaps: 'Google Maps',
+        marqueeAI: 'Automatisation IA',
+        heroStat1Title: '+42 lancements premium',
+        heroStat1Body: 'Livraison rapide pour des enseignes locales avec un rendu soigné et rentable.',
+        heroStat1Tag: 'Design impactant',
+        heroStat2Title: 'Agents de chat IA',
+        heroStat2Body: 'Réponses clients, réservations et recommandations locales sans perdre en chaleur.',
+        heroStat2Tag: 'Conversion immédiate',
+        heroStat3Title: 'Plus de visibilité',
+        heroStat3Body: 'Mise à jour Maps et réseaux pour apparaître en premier dans les recherches locales.',
+        heroStat3Tag: 'Focus local',
+        servicesTitle: 'Nos services pour la réussite locale',
+        servicesSubtitle: 'Une offre premium dédiée aux barbiers, salons, restaurants et services de ménage qui veulent croître.',
+        serviceWebTitle: 'Design Web',
+        serviceWebBody: 'Sites rapides et élégants, conçus pour les réservations, les menus et l’image locale.',
+        serviceSocialTitle: 'Gestion réseaux sociaux',
+        serviceSocialBody: 'Contenu stratégique et publications prêtes à convertir sur Instagram, Facebook et TikTok.',
+        serviceMapsTitle: 'Optimisation Google Maps',
+        serviceMapsBody: 'Visibilité renforcée, avis soignés, et référencement local amélioré pour attirer davantage de clients.',
+        serviceAITitle: 'Automatisation IA',
+        serviceAIBody: 'Agents conversationnels, assistants de réservation et relances intelligentes pour alléger votre agenda.',
+        processTitle: 'Comment NOVIQ travaille avec vous',
+        processSubtitle: 'Un processus premium et transparent, pensé pour les propriétaires locaux exigeants.',
+        processStep1Title: 'Consultation',
+        processStep1Body: 'Nous définissons ensemble votre clientèle, votre ton et votre parcours de réservation.',
+        processStep2Title: 'Création',
+        processStep2Body: 'Design, contenu et automations sont créés pour être élégants, modernes et performants.',
+        processStep3Title: 'Lancement',
+        processStep3Body: 'Nous déployons votre site, optimisons Maps et lançons les campagnes locales à fort impact.',
+        processStep4Title: 'Gestion',
+        processStep4Body: 'Support continu, mises à jour et optimisation IA pour maintenir votre présence en tête.',
+        workTitle: 'Réalisations sélectionnées',
+        workSubtitle: 'Des projets soignés et orientés résultats pour des commerces de proximité.',
+        portfolioTag1: 'Expérience barbier',
+        portfolioTitle1: 'Réservations nettes',
+        portfolioBody1: 'Identité digitale moderne avec un parcours de prise de rendez-vous fluide.',
+        portfolioTag2: 'Démo ménage',
+        portfolioTitle2: 'Visibilité locale premium',
+        portfolioBody2: 'Une page claire et élégante pour inciter les clients à appeler ou réserver.',
+        portfolioTag3: 'Vitrine salon',
+        portfolioTitle3: 'Parcours de réservation raffiné',
+        portfolioBody3: 'Une page haut de gamme qui sublime l’expérience client du premier clic.',
+        statsClients: 'Clients accompagnés',
+        statsProjects: 'Projets réalisés',
+        statsLang: 'Langues prises en charge',
+        statsSatisfaction: 'Satisfaction clients',
+        whyTitle: 'Pourquoi choisir NOVIQ',
+        whyBody: 'Nous allions design premium, expertise locale et automatisation IA pour générer plus d’appels, réservations et avis.',
+        whyItem1: 'Sites sur mesure, raffinés et orientés conversion.',
+        whyItem2: 'Stratégies Google Maps conçues pour la confiance locale.',
+        whyItem3: 'Agents IA qui répondent, réservent et réduisent les absences.',
+        whyItem4: 'Accompagnement mensuel simple pour garder une image haut de gamme.',
+        pricingTitle: 'Tarifs pensés pour un ROI rapide',
+        pricingSubtitle: 'Sites premium et accompagnement clair, avec un suivi mensuel possible.',
+        pricingStarter: 'Starter',
+        pricingPro: 'Professionnel',
+        pricingPremium: 'Premium',
+        pricingSetup: 'installation',
+        pricingFeature1: 'Site one-page premium',
+        pricingFeature2: 'SEO local de base',
+        pricingFeature3: 'Liens contact & réservation',
+        pricingFeature4: 'Site 3-5 pages',
+        pricingFeature5: 'Guide contenu social',
+        pricingFeature6: 'Optimisation Maps & avis',
+        pricingFeature7: 'Site marque complet',
+        pricingFeature8: 'Intégration agent IA',
+        pricingFeature9: 'Plan d’optimisation mensuel',
+        pricingSelect: 'Choisir',
+        pricingNote: 'Support mensuel disponible après lancement pour une croissance locale continue.',
+        finalTitle: 'Prêt à faire monter votre entreprise ?',
+        finalSubtitle: 'Réservez une démo gratuite et découvrez comment NOVIQ rend votre marque locale visible et automatisée.',
+        finalButton: 'Réserver une démo',
+        footerCopy: '© 2026 NOVIQ — Agence digitale premium pour commerces locaux.'
+      },
+      es: {
+        brand: 'NOVIQ',
+        navServices: 'Servicios',
+        navWork: 'Proyectos',
+        navAbout: 'Sobre nosotros',
+        navContact: 'Contacto',
+        navFreeDemo: 'Demo gratis',
+        heroLabel: 'Agencia digital para negocios locales',
+        heroTitle: 'Presencia online premium para negocios locales ambiciosos',
+        heroSubtitle: 'Creamos sitios elegantes, redes sociales efectivas, visibilidad en Google Maps y automatizaciones IA para salones, restaurantes y servicios.',
+        heroDemo: 'Demo gratis',
+        heroWork: 'Ver proyectos',
+        marqueeWeb: 'Diseño web',
+        marqueeSocial: 'Redes sociales',
+        marqueeMaps: 'Google Maps',
+        marqueeAI: 'Automatización IA',
+        heroStat1Title: '+42 lanzamientos premium',
+        heroStat1Body: 'Entrega rápida para negocios locales con una imagen cuidada y rentable.',
+        heroStat1Tag: 'Diseño impactante',
+        heroStat2Title: 'Agentes de chat IA',
+        heroStat2Body: 'Responde clientes, reservas y sugerencias locales sin perder cercanía.',
+        heroStat2Tag: 'Listo para convertir',
+        heroStat3Title: 'Más visibilidad',
+        heroStat3Body: 'Actualizaciones en Maps y redes para aparecer primero en búsquedas locales.',
+        heroStat3Tag: 'Enfoque local',
+        servicesTitle: 'Nuestros servicios para el éxito local',
+        servicesSubtitle: 'Una oferta premium pensada para barberías, salones, restaurantes y limpieza que buscan crecer.',
+        serviceWebTitle: 'Diseño Web',
+        serviceWebBody: 'Sitios rápidos y elegantes, diseñados para reservas, menús y mensajes que convierten.',
+        serviceSocialTitle: 'Gestión de redes',
+        serviceSocialBody: 'Contenido estratégico y publicaciones listas para convertir en Instagram, Facebook y TikTok.',
+        serviceMapsTitle: 'Optimización Google Maps',
+        serviceMapsBody: 'Mayor visibilidad, reseñas y posicionamiento local para que te encuentren primero.',
+        serviceAITitle: 'Automatización IA',
+        serviceAIBody: 'Agentes conversacionales, asistentes de reserva y seguimientos inteligentes para liberar tiempo del equipo.',
+        processTitle: 'Cómo trabaja NOVIQ contigo',
+        processSubtitle: 'Un proceso premium y claro, diseñado para negocios locales que buscan resultados.',
+        processStep1Title: 'Consulta',
+        processStep1Body: 'Definimos audiencia, tono y flujo de reservas de forma rápida y eficaz.',
+        processStep2Title: 'Construcción',
+        processStep2Body: 'Diseño, contenido y automatizaciones creadas para ser modernas y efectivas.',
+        processStep3Title: 'Lanzamiento',
+        processStep3Body: 'Lanzamos tu sitio, optimizamos Maps y activamos campañas locales con impacto.',
+        processStep4Title: 'Gestión',
+        processStep4Body: 'Soporte continuo, actualizaciones y optimización IA para mantener tu negocio relevante.',
+        workTitle: 'Proyectos seleccionados',
+        workSubtitle: 'Proyectos cuidados y orientados a resultados para negocios de proximidad.',
+        portfolioTag1: 'Experiencia barbería',
+        portfolioTitle1: 'Reservas precisas',
+        portfolioBody1: 'Identidad digital moderna con un flujo de citas claro para visitantes y clientes habituales.',
+        portfolioTag2: 'Demo limpieza',
+        portfolioTitle2: 'Visibilidad local premium',
+        portfolioBody2: 'Una página limpia y moderna para motivar a los clientes a llamar o reservar.',
+        portfolioTag3: 'Vitrina salón',
+        portfolioTitle3: 'Flujo de reserva elegante',
+        portfolioBody3: 'Una página premium que eleva la experiencia del cliente desde el primer clic.',
+        statsClients: 'Clientes atendidos',
+        statsProjects: 'Proyectos entregados',
+        statsLang: 'Idiomas admitidos',
+        statsSatisfaction: 'Satisfacción del cliente',
+        whyTitle: 'Por qué eligen NOVIQ',
+        whyBody: 'Combinamos diseño premium, experiencia local y automatización IA para generar más llamadas, reservas y reseñas.',
+        whyItem1: 'Sitios a medida, refinados y orientados a conversión.',
+        whyItem2: 'Estrategias Google Maps para confianza local.',
+        whyItem3: 'Agentes IA que responden, reservan y reducen ausencias.',
+        whyItem4: 'Acompañamiento mensual simple para mantener una imagen premium.',
+        pricingTitle: 'Precios pensados para un ROI rápido',
+        pricingSubtitle: 'Sitios premium con tarifas claras y soporte opcional mensual.',
+        pricingStarter: 'Starter',
+        pricingPro: 'Profesional',
+        pricingPremium: 'Premium',
+        pricingSetup: 'instalación',
+        pricingFeature1: 'Sitio one-page premium',
+        pricingFeature2: 'SEO local básico',
+        pricingFeature3: 'Enlaces de contacto y reserva',
+        pricingFeature4: 'Sitio de 3-5 páginas',
+        pricingFeature5: 'Guía de contenido social',
+        pricingFeature6: 'Optimización Maps y reseñas',
+        pricingFeature7: 'Sitio de marca completo',
+        pricingFeature8: 'Integración de agente IA',
+        pricingFeature9: 'Plan de optimización mensual',
+        pricingSelect: 'Seleccionar',
+        pricingNote: 'Soporte mensual disponible tras el lanzamiento para crecimiento local constante.',
+        finalTitle: '¿Listo para elevar tu negocio?',
+        finalSubtitle: 'Reserva una demo gratuita y descubre cómo NOVIQ puede hacer tu marca local visible y automatizada.',
+        finalButton: 'Reservar demo',
+        footerCopy: '© 2026 NOVIQ — Agencia digital premium para negocios locales.'
+      }
+    };
+
+    const langButton = document.getElementById('langButton');
+    const langMenu = document.getElementById('langMenu');
+    const langLabel = document.getElementById('langLabel');
+    const langSwitcher = document.getElementById('langSwitcher');
+    let currentLang = 'en';
+
+    function updateText(language) {
+      const nodes = document.querySelectorAll('[data-i18n]');
+      nodes.forEach(node => {
+        const key = node.getAttribute('data-i18n');
+        const translation = translations[language][key];
+        if (!translation) return;
+        if (node.tagName.toLowerCase() === 'input' || node.tagName.toLowerCase() === 'textarea') {
+          node.placeholder = translation;
+        } else {
+          node.textContent = translation;
+        }
+      });
+      langLabel.textContent = language.toUpperCase();
+      currentLang = language;
+    }
+
+    function closeLangMenu() {
+      langMenu.classList.remove('open');
+      langButton.setAttribute('aria-expanded', 'false');
+    }
+
+    langSwitcher.addEventListener('click', event => {
+      if (event.target.closest('#langButton')) {
+        const open = langMenu.classList.toggle('open');
+        langButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+    });
+
+    langMenu.querySelectorAll('button[data-lang]').forEach(button => {
+      button.addEventListener('click', () => {
+        const selected = button.dataset.lang;
+        updateText(selected);
+        closeLangMenu();
+      });
+    });
+
+    document.addEventListener('click', event => {
+      if (!langSwitcher.contains(event.target)) {
+        closeLangMenu();
+      }
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', event => {
+        const targetId = anchor.getAttribute('href').slice(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          event.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.18 });
+
+    document.querySelectorAll('[data-animate]').forEach(el => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const countEl = entry.target.querySelector('[data-count]');
+          if (countEl && !countEl.dataset.animated) {
+            animateCount(countEl);
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stats-grid .stat-card').forEach(card => countObserver.observe(card));
+
+    function animateCount(element) {
+      const target = Number(element.dataset.count) || 0;
+      const duration = 1400;
+      const start = performance.now();
+      const initial = 0;
+      function step(timestamp) {
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const value = Math.floor(initial + (target - initial) * progress);
+        element.textContent = value;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          element.textContent = target + (element.dataset.count === '97' ? '%' : '');
+          element.dataset.animated = 'true';
+        }
+      }
+      requestAnimationFrame(step);
+    }
+
+    const cursorDot = document.getElementById('cursorDot');
+    window.addEventListener('mousemove', (event) => {
+      cursorDot.style.left = `${event.clientX}px`;
+      cursorDot.style.top = `${event.clientY}px`;
+      cursorDot.style.opacity = '1';
+    });
+    document.addEventListener('mouseleave', () => cursorDot.style.opacity = '0');
+
+    updateText('en');
+  </script>
+</body>
+</html>
