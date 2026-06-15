@@ -1,0 +1,5 @@
+# robots.txt — NOVIQ
+User-agent: *
+Allow: /
+
+Sitemap: https://noviq-six.vercel.app/sitemap.xml
